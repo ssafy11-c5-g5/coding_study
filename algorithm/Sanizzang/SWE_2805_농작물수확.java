@@ -2,7 +2,7 @@ package coding_study.algorithm.Sanizzang;
 
 import java.util.Scanner;
 
-public class SWEA_2805_농작물수확 {
+public class SWE_2805_농작물수확 {
     public static void main(String[] args) {
         Scanner sc = new Scanner(System.in);
         int T = sc.nextInt();
