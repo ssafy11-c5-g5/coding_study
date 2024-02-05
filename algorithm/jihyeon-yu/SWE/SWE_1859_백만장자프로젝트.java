@@ -1,29 +1,45 @@
-package algorithm;
+package practice;
 
-import java.util.Arrays;
-import java.util.Scanner;
+import java.io.BufferedReader;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.util.StringTokenizer;
 
-public class SWEA_1859_백만장자프로젝트_오답 {
-	public static void main(String[] args) {
-		Scanner sc = new Scanner(System.in);
-		int test_case = sc.nextInt();
-		for (int t = 1; t <= test_case; t++) {
-			long income = 0L;
-			int num = sc.nextInt();
-			int[] prices = new int[num+1];
-			for (int i = 0; i < num; i++) {
-				int price = sc.nextInt();
-				prices[i] = price;
+public class SWEA_1859_백만장자프로젝트 {
+
+	public static void main(String[] args) throws IOException {
+		System.setIn(new FileInputStream("sample.txt"));
+		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+		StringTokenizer st = new StringTokenizer(br.readLine());
+		StringBuilder sb = new StringBuilder();
+		
+		int T = Integer.parseInt(st.nextToken());
+		
+		for (int t = 1; t <= T; t++) {
+			st = new StringTokenizer(br.readLine());
+			int N = Integer.parseInt(st.nextToken());
+			
+			int[] price = new int[N];
+			long income = 0;
+			
+			st = new StringTokenizer(br.readLine(), " ");
+			for (int i = 0; i < N; i++) {
+				price[i] = Integer.parseInt(st.nextToken());
 			}
-			prices[num] = Integer.MIN_VALUE;
-			for (int i = 0; i < num; i++) {
-				int[] arr = Arrays.copyOfRange(prices, i+1, prices.length);
-				int max = Arrays.stream(arr).max().getAsInt();
-				if (prices[i] < max) {
-					income += max - prices[i];
-				}
+			
+			int maxVal = price[N - 1];
+			for (int i = N - 2; i >= 0; i--) {
+					if(maxVal > price[i]) {
+						income += maxVal - price[i];
+					}
+					else {
+						maxVal = price[i];
+					}
 			}
+			
 			System.out.println("#" + t + " " + income);
 		}
 	}
+
 }
