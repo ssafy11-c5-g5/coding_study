@@ -9,7 +9,7 @@ import java.util.StringTokenizer;
 public class SWEA_7236_저수지의물의총깊이구하기 {
 
 	public static void main(String[] args) throws IOException {
-		System.setIn(new FileInputStream("input.txt"));
+		//System.setIn(new FileInputStream("input.txt"));
 		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 		StringTokenizer st = new StringTokenizer(br.readLine());
 		int T = Integer.parseInt(st.nextToken());
