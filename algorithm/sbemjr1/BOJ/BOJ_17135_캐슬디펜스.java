@@ -81,7 +81,6 @@ public class BOJ_17135_캐슬디펜스 {
 				int min = Integer.MAX_VALUE;
 				
 				for (int r = N-1; r >= 0; r--) {
-					
 					for (int c = 0; c < M; c++) {
 						if(copyMap[r][c] == 1) {
 							distance = Math.abs(archerR - r) + Math.abs(archerC - c);
@@ -97,8 +96,7 @@ public class BOJ_17135_캐슬디펜스 {
 					}
 				}
 			}
-//			System.out.println(limit);	
-				limit++;
+			limit++;
 			// 궁수가 죽인 적들 한번에 처리
 			for (int j = 0; j < killEnemy.length; j++) {
 				for (int r = 0; r < N; r++) {
