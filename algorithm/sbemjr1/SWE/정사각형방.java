@@ -6,8 +6,8 @@ public class 정사각형방 {
 	static int[][] map;
 	static boolean[][] v;
 	static int T, N, cnt;
-	static long val;
-	static long Ans;
+	static int val;
+	static int Ans;
 	static int [] dr = {0,1,0,-1};
 	static int [] dc = {1,0,-1,0};
 
@@ -20,19 +20,19 @@ public class 정사각형방 {
 			val=Integer.MAX_VALUE;
 			Ans=Integer.MIN_VALUE;
 			
-			map = new int[N][N];
-			v = new boolean[N][N];
+			map = new int[N+2][N+2];
+//			v = new boolean[N][N];
 			
-			for (int r = 0; r < N; r++) {
-				for (int c = 0; c < N; c++) {
+			for (int r = 1; r <= N; r++) {
+				for (int c = 1; c <= N; c++) {
 					map[r][c] = sc.nextInt();
 				}
 			}
-			for (int r = 0; r < N; r++) {
-				for (int c = 0; c < N; c++) {
-					v[r][c] = true;
+			for (int r = 1; r <= N; r++) {
+				for (int c = 1; c <= N; c++) {
+//					v[r][c] = true;
 					dfs(r,c,1);
-					v[r][c] = false;
+//					v[r][c] = false;
 				}
 			}
 			System.out.println("#"+tc+" "+val+" "+Ans);
@@ -47,10 +47,10 @@ public class 정사각형방 {
 			int nr = r + dr[d];
 			int nc = c + dc[d];
 			// 지도경계
-			if(nr>=0&nr<N&&nc>=0&&nc<N&&!v[nr][nc]&&map[nr][nc]-map[r][c]==1) {
-				v[nr][nc] = true;
+			if(map[nr][nc]-map[r][c]==1) {
+//				v[nr][nc] = true;
 				dfs(nr,nc,cnt+1);
-				v[nr][nc] = false;
+//				v[nr][nc] = false;
 			}
 		}
 		if (Ans < cnt) {
