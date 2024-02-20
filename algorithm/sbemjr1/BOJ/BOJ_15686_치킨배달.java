@@ -10,7 +10,9 @@ import java.util.Stack;
 import java.util.StringTokenizer;
 
 public class BOJ_15686_치킨배달 {
-	static int N,M,map[][];
+	static int N,M,map[][],arr[],sel[],sum,min;
+	static ArrayList<ArrayList<Integer>> d;
+	static int[] result;
 
 	public static void main(String[] args) throws IOException {
 		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
@@ -20,7 +22,11 @@ public class BOJ_15686_치킨배달 {
 		M = Integer.parseInt(st.nextToken());
 		
 		map = new int[N][N];
-		ArrayList<ArrayList<Integer>> d = new ArrayList<>();
+		d = new ArrayList<>();
+		
+		for (int i = 0; i < 2*N*13; i++) {
+			d.add(new ArrayList<Integer>());
+		}
 		
 		for (int r = 0; r < N; r++) {
 			st = new StringTokenizer(br.readLine());
@@ -28,6 +34,8 @@ public class BOJ_15686_치킨배달 {
 				map[r][c] = Integer.parseInt(st.nextToken());
 			}
 		}
+		
+		int cnt = 0;
 				
 		for (int r = 0; r < N; r++) {
 			for (int c = 0; c < N; c++) {
@@ -35,20 +43,68 @@ public class BOJ_15686_치킨배달 {
 					for (int nr = 0; nr < N; nr++) {
 						for (int nc = 0; nc < N; nc++) {
 							if (map[nr][nc] == 2) {
-								d.add(Math.abs(nr-r)+Math.abs(nc-c));
+								d.get(cnt).add(Math.abs(nr-r)+Math.abs(nc-c));
 							}
+						}
+					}
+					cnt++;
+				}
+			}
+		}
+		
+//		for (int r = 0; r < d.size(); r++) {
+//			System.out.println(d.get(r));
+//		}
+		
+		arr = new int[d.get(0).size()];
+		sel = new int[M];
+		for (int i = 0; i < d.get(0).size(); i++) {
+			arr[i] = i;
+		}
+
+		sum = 0;
+		min = Integer.MAX_VALUE;
+		result = new int[d.size()];
+		combination(0,0);
+		
+		System.out.println(min);
+	}
+
+	private static void combination(int idx, int k) {
+		if(k == sel.length) {
+			sum = 0;
+			min = Integer.MAX_VALUE;
+			result = new int[d.size()];
+			cal();
+			return;
+		}
+		if(idx == sel.length) {
+			return;
+		}
+		
+		sel[k] = arr[idx];
+		combination(idx+1,k+1);
+		combination(idx+1, k);
+	}
+
+	private static void cal() {
+		for (int j = 0; j < sel.length; j++) {
+			for (int r = 0; r < d.size(); r++) {
+				for (int i = 0; i < d.get(0).size(); i++) {
+					if (i == sel[j] && !d.get(r).isEmpty()) {
+						if (arr[r] > d.get(r).get(i)) {
+							arr[r] = d.get(r).get(i);
+						} else  {
+							arr[r] = d.get(r).get(i);
 						}
 					}
 				}
 			}
 		}
-		
-		for (int r = 0; r < N; r++) {
-			for (int c = 0; c < N; c++) {
-				System.out.print(map[r][c] + " ");
-			}
-			System.out.println();
+		for (int i = 0; i < arr.length; i++) {
+			sum += arr[i];
 		}
+		min = Math.min(min, sum);
 	}
 
 }
