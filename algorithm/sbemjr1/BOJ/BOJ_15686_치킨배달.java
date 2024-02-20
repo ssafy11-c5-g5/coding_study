@@ -53,7 +53,7 @@ public class BOJ_15686_치킨배달 {
 		}
 		
 //		for (int r = 0; r < d.size(); r++) {
-//			System.out.println(d.get(r));
+//			System.out.println(d.get(r).isEmpty());
 //		}
 		
 		arr = new int[d.get(0).size()];
@@ -72,8 +72,7 @@ public class BOJ_15686_치킨배달 {
 
 	private static void combination(int idx, int k) {
 		if(k == sel.length) {
-			sum = 0;
-			min = Integer.MAX_VALUE;
+//			sum = 0;
 			result = new int[d.size()];
 			cal();
 			return;
@@ -92,17 +91,18 @@ public class BOJ_15686_치킨배달 {
 			for (int r = 0; r < d.size(); r++) {
 				for (int i = 0; i < d.get(0).size(); i++) {
 					if (i == sel[j] && !d.get(r).isEmpty()) {
-						if (arr[r] > d.get(r).get(i)) {
-							arr[r] = d.get(r).get(i);
-						} else  {
-							arr[r] = d.get(r).get(i);
+						if (result[r] == 0) {
+							result[r] = d.get(r).get(i);
+						} else if (result[r] > d.get(r).get(i)) {
+							result[r] = d.get(r).get(i);
 						}
 					}
 				}
 			}
 		}
-		for (int i = 0; i < arr.length; i++) {
-			sum += arr[i];
+		for (int i = 0; i < result.length; i++) {
+			sum += result[i];
+			System.out.println(sum);
 		}
 		min = Math.min(min, sum);
 	}
