@@ -3,10 +3,7 @@ package sbemjr1.BOJ;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.util.ArrayDeque;
 import java.util.ArrayList;
-import java.util.Queue;
-import java.util.Stack;
 import java.util.StringTokenizer;
 
 public class BOJ_15686_치킨배달 {
@@ -52,10 +49,6 @@ public class BOJ_15686_치킨배달 {
 			}
 		}
 		
-//		for (int r = 0; r < d.size(); r++) {
-//			System.out.println(d.get(r).isEmpty());
-//		}
-		
 		arr = new int[d.get(0).size()];
 		sel = new int[M];
 		for (int i = 0; i < d.get(0).size(); i++) {
@@ -72,17 +65,20 @@ public class BOJ_15686_치킨배달 {
 
 	private static void combination(int idx, int k) {
 		if(k == sel.length) {
-//			sum = 0;
+			sum = 0;
 			result = new int[d.size()];
+			for (int i = 0; i < d.size(); i++) {
+				result[i] = Integer.MAX_VALUE;
+			}
 			cal();
 			return;
 		}
-		if(idx == sel.length) {
+		if(idx == arr.length) {
 			return;
 		}
 		
 		sel[k] = arr[idx];
-		combination(idx+1,k+1);
+		combination(idx+1, k+1);
 		combination(idx+1, k);
 	}
 
@@ -91,9 +87,7 @@ public class BOJ_15686_치킨배달 {
 			for (int r = 0; r < d.size(); r++) {
 				for (int i = 0; i < d.get(0).size(); i++) {
 					if (i == sel[j] && !d.get(r).isEmpty()) {
-						if (result[r] == 0) {
-							result[r] = d.get(r).get(i);
-						} else if (result[r] > d.get(r).get(i)) {
+						if (result[r] > d.get(r).get(i)) {
 							result[r] = d.get(r).get(i);
 						}
 					}
@@ -101,8 +95,10 @@ public class BOJ_15686_치킨배달 {
 			}
 		}
 		for (int i = 0; i < result.length; i++) {
+			if (result[i] == Integer.MAX_VALUE) {
+				break;
+			}
 			sum += result[i];
-			System.out.println(sum);
 		}
 		min = Math.min(min, sum);
 	}

@@ -88,6 +88,5 @@ public class BOJ_16234_인구이동 {
 			return "Point [r=" + r + ", c=" + c + ", value=" + value + "]";
 		}
 		
-		
 	}
 }
