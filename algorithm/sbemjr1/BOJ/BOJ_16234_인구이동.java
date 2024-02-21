@@ -13,8 +13,10 @@ import java.util.StringTokenizer;
 //연합을 해체하고, 모든 국경선을 닫는다.
 
 public class BOJ_16234_인구이동 {
-	static int N,L,R,map[][];
-	static boolean v[][];
+	static int N,L,R,map[][],sum;
+	static boolean v[][], adjV[];
+	static ArrayList<Point>[] graph;
+	static ArrayList<ArrayList<Point>> result;
 	
 	static int[] dr = {-1,1,0,0};
 	static int[] dc = {0,0,-1,1};
@@ -30,7 +32,7 @@ public class BOJ_16234_인구이동 {
 		map = new int[N][N];
 		v = new boolean[N][N];
 		
-		ArrayList[] graph = new ArrayList[N*N];
+		graph = new ArrayList[N*N];
 		
 		for (int i = 0; i < N*N; i++) {
 			graph[i] = new ArrayList<Point>();
@@ -64,14 +66,54 @@ public class BOJ_16234_인구이동 {
 				}
 			}
 		}
+		
+		while(true) {
+			result = new ArrayList<>();
+			adjV = new boolean[N*N];
+			sum = 0;
+			dfs(0);
+			if (result.isEmpty()) {
+				break;
+			}
+			for (int k = 0; k < result.size(); k++) {
+				for (int l = 0; l < result.get(k).size(); l++) {
+					for (int i = 0; i < N*N; i++) {
+						for (int j = 0; j < graph[i].size(); j++) {
+							if (graph[i].get(j).r == result.get(k).get(l).r && graph[i].get(j).c == result.get(k).get(l).c) {
+								graph[i].get(j).value = sum/(N*N);
+								System.out.println(graph[i].get(j).value);
+							}
+						}
+					}
+				}
+			}
+		}
 		for (int i = 0; i < N*N; i++) {
 			for (int j = 0; j < graph[i].size(); j++) {
 				System.out.print(graph[i].get(j).toString()+ " ");
 			}
 			System.out.println();
 		}
+//		result = new ArrayList<>();
+//		adjV = new boolean[N*N];
+//		dfs(0);
+		System.out.println(result);
 	}
 	
+	private static void dfs(int cur) {
+		adjV[cur] = true;
+		
+		for (int i = 0; i < graph[cur].size(); i++) {
+			if (!adjV[graph[cur].get(i).r*N+graph[cur].get(i).c]) {
+				adjV[graph[cur].get(i).r*N+graph[cur].get(i).c] = true;
+				adjV[graph[cur].get(i).c*N+graph[cur].get(i).r] = true;
+				dfs(graph[cur].get(i).r*N+graph[cur].get(i).c);
+				result.add(graph[cur]);
+				sum += graph[cur].get(i).value;
+			}
+		}
+	}
+
 	static class Point {
 		int r;
 		int c;
