@@ -8,14 +8,8 @@ import java.util.ArrayList;
 import java.util.Queue;
 import java.util.StringTokenizer;
 
-//국경선을 공유하는 두 나라의 인구 차이가 L명 이상, R명 이하라면, 두 나라가 공유하는 국경선을 오늘 하루 동안 연다.
-//위의 조건에 의해 열어야하는 국경선이 모두 열렸다면, 인구 이동을 시작한다.
-//국경선이 열려있어 인접한 칸만을 이용해 이동할 수 있으면, 그 나라를 오늘 하루 동안은 연합이라고 한다.
-//연합을 이루고 있는 각 칸의 인구수는 (연합의 인구수) / (연합을 이루고 있는 칸의 개수)가 된다. 편의상 소수점은 버린다.
-//연합을 해체하고, 모든 국경선을 닫는다.
-
 public class BOJ_16234_인구이동_bfs {
-	static int N,L,R,map[][],sum;
+	static int N,L,R,map[][],sum,minR,minC,maxR,maxC;
 	static boolean v[][];
 	static ArrayList<Point> result;
 	
@@ -49,11 +43,15 @@ public class BOJ_16234_인구이동_bfs {
 					if (!v[r][c]) {
 						result = new ArrayList<>();
 						sum = 0;
+						minR = Integer.MAX_VALUE;
+						minC = Integer.MAX_VALUE;
+						maxR = Integer.MIN_VALUE;
+						maxC = Integer.MIN_VALUE;
 						bfs(r,c,map[r][c]);
-						// 인구 분배
+						// 인구 분배 
 						for (int i = 0; i < result.size(); i++) {
-							for (int nr = 0; nr < N; nr++) {
-								for (int nc = 0; nc < N; nc++) {
+							for (int nr = minR; nr <= maxR; nr++) {
+								for (int nc = minC; nc <= maxC; nc++) {
 									if(nr == result.get(i).r && nc == result.get(i).c) {
 										map[nr][nc] = sum / result.size();
 									}
@@ -85,7 +83,11 @@ public class BOJ_16234_인구이동_bfs {
 			int nowC = p.c;
 			
 			sum += p.value;
-
+			
+			minR = Math.min(nowR, minR);
+			minC = Math.min(nowC, minC);
+			maxR = Math.max(nowR, maxR);
+			maxC = Math.max(nowC, maxC);
 			result.add(new Point(nowR,nowC,map[nowR][nowC]));
 			
 			for (int d = 0; d < 4; d++) {
