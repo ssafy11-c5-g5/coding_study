@@ -69,7 +69,7 @@ public class SWEA_5644_무선충전 {
 			cA = 0;
 			rB = 9;
 			cB = 9;
-			sel = new int[A];
+			sel = new int[2];
 			
 			result = 0;
 			ans = 0;
