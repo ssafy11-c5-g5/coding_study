@@ -6,7 +6,7 @@ import java.io.InputStreamReader;
 import java.util.StringTokenizer;
 
 public class BOJ_17135_캐슬디펜스 {
-	static int N,M,D,originMap[][],copyMap[][], sel[],archorPosition[],cnt,ans;
+	static int N,M,D,originMap[][],copyMap[][], sel[],cnt,ans;
 
 	public static void main(String[] args) throws IOException {
 		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
@@ -30,10 +30,6 @@ public class BOJ_17135_캐슬디펜스 {
 		ans = Integer.MIN_VALUE;
 		
 		// 궁수 위치 조합
-		archorPosition = new int[M];
-		for (int i = 0; i < M; i++) {
-			archorPosition[i] = i;
-		}
 		sel = new int[3];
 		combination(0,0);
 		System.out.println(ans);
@@ -50,7 +46,7 @@ public class BOJ_17135_캐슬디펜스 {
 			return;
 		}
 		
-		sel[k] = archorPosition[idx];
+		sel[k] = idx;
 		combination(idx+1, k+1);
 		combination(idx+1, k);
 	}
@@ -70,7 +66,7 @@ public class BOJ_17135_캐슬디펜스 {
 			int[][] killEnemy = new int[sel.length][2];
 			for (int j = 0; j < 3; j++) {
 				for (int k = 0; k < 2; k++) {
-					killEnemy[j][k] = -1;
+					killEnemy[j][k] = -1; // 밑에서 0과 겹칠까봐
 				}
 			}
 			// 궁수 한명 마다 타겟 설정
@@ -96,7 +92,6 @@ public class BOJ_17135_캐슬디펜스 {
 					}
 				}
 			}
-			limit++;
 			// 궁수가 죽인 적들 한번에 처리
 			for (int j = 0; j < killEnemy.length; j++) {
 				for (int r = 0; r < N; r++) {
@@ -108,10 +103,12 @@ public class BOJ_17135_캐슬디펜스 {
 					}
 				}
 			}
-			//한번 공격 후 성으로 도착한 적들 0으로 처리
+			// 한번 공격 후 성으로 도착한 적들 0으로 처리
 			for (int j = 0; j < M; j++) {
 				copyMap[N-1-i][j] = 0;
 			}
+			// 적들이 다가오는 대신 사거리 증가
+			limit++;
 		}
 	}
 }
