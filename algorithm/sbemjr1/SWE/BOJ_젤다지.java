@@ -4,9 +4,25 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.Arrays;
+import java.util.PriorityQueue;
 import java.util.StringTokenizer;
 
 public class BOJ_젤다지 {
+	static class Vertex implements Comparable<Vertex> {
+		int node, weight;
+
+		public Vertex(int node, int weight) {
+			super();
+			this.node = node;
+			this.weight = weight;
+		}
+
+		@Override
+		public int compareTo(Vertex o) {
+			return Integer.compare(this.weight, o.weight);
+		}
+		
+	}
 	static class Node {
 		int vertex, weight;
 		Node next;
@@ -77,28 +93,50 @@ public class BOJ_젤다지 {
 			Arrays.fill(minDistance, Integer.MAX_VALUE);
 			minDistance[0] = map[0][0];
 			
-			for (int i = 0; i < N*N; i++) {
-				int min = Integer.MAX_VALUE;
-				int minVertex = -1;
-				
-				for (int j = 0; j < N*N; j++) {
-					if(!v[j] && minDistance[j] < min) {
-						min = minDistance[j];
-						minVertex = j;
-					}
+			PriorityQueue<Vertex> pq = new PriorityQueue<>();
+			pq.offer(new Vertex(0, minDistance[0]));
+			int cnt = 0;
+			
+			while(!pq.isEmpty()) {
+				Vertex minVertex = pq.poll();
+				if(v[minVertex.node]) {
+					continue;
 				}
-				
-				if(minVertex == -1) {
+				v[minVertex.node] = true;
+				if(++cnt == N*N) {
 					break;
 				}
-				v[minVertex] = true;
 				
-				for (Node tmp = adjList[minVertex]; tmp != null; tmp = tmp.next) {
-					if(!v[tmp.vertex] && minDistance[tmp.vertex] > min + tmp.weight) {
-						minDistance[tmp.vertex] = min + tmp.weight;
+				for(Node tmp = adjList[minVertex.node]; tmp != null; tmp = tmp.next) {
+					if(!v[tmp.vertex] && minDistance[tmp.vertex] > minVertex.weight + tmp.weight) {
+						minDistance[tmp.vertex] = minVertex.weight + tmp.weight;
+						pq.offer(new Vertex(tmp.vertex, minVertex.weight + tmp.weight));
 					}
 				}
 			}
+			
+//			for (int i = 0; i < N*N; i++) {
+//				int min = Integer.MAX_VALUE;
+//				int minVertex = -1;
+//				
+//				for (int j = 0; j < N*N; j++) {
+//					if(!v[j] && minDistance[j] < min) {
+//						min = minDistance[j];
+//						minVertex = j;
+//					}
+//				}
+//				
+//				if(minVertex == -1) {
+//					break;
+//				}
+//				v[minVertex] = true;
+//				
+//				for (Node tmp = adjList[minVertex]; tmp != null; tmp = tmp.next) {
+//					if(!v[tmp.vertex] && minDistance[tmp.vertex] > min + tmp.weight) {
+//						minDistance[tmp.vertex] = min + tmp.weight;
+//					}
+//				}
+//			}
 			T++;
 			System.out.println("Problem "+T+": "+minDistance[N*N-1]);
 			

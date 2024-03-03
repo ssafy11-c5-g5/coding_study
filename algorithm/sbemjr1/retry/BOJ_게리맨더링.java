@@ -30,7 +30,7 @@ public class BOJ_게리맨더링 {
 	static boolean[] vA;
 	static boolean[] vB;
 
-	public static void main(String[] args)  throws IOException {
+	public static void main(String[] args) throws IOException {
 		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 		StringTokenizer st = new StringTokenizer(br.readLine());
 		
