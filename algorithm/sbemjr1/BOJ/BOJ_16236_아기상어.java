@@ -96,7 +96,6 @@ public class BOJ_16236_아기상어 {
 		//몸집 키우기 (자기 몸무게 만큼 먹으면 1성장)
 		int cnt = 0;
 		while(true) {
-//			PriorityQueue<Target> pq = new PriorityQueue<>();
 			pq.clear();
 			for (int r = 0; r < N; r++) {
 				for (int c = 0; c < N; c++) {
@@ -104,7 +103,6 @@ public class BOJ_16236_아기상어 {
 						v = new boolean[N][N];
 						dist = 0;
 						if(bfs(r,c)) { // 최단 거리 확인 및 갈 수 있는지 확인(물고기 -> 상어)
-//							System.out.println(r+" "+c);
 							pq.offer(new Target(r,c,dist));
 						}
 					}
